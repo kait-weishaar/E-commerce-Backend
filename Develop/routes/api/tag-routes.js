@@ -29,22 +29,25 @@ router.get('/:id', (req, res) => {
       id: req.params.id
     },
     include: [
-      {model: Product,
-      attributes: ['id', 'product_name', 'price', 'stock', 'category_id']
-    }
+      {
+        model: Product,
+        attributes: ['id', 'product_name', 'price', 'stock', 'category_id'],
+      }
     ]
   })
-  .then(TagInfo => {
-    if (!Taginfo) {res.status(404),json({message: 'No tag found. Verify your search'})
-    return;
-  }
-    res.json(TagInfo);
-  })
-  .catch(err => {
-    console.log(err);
-    res.status(500).json(err);
-  });
+    .then(tagInfo => {
+      if (!tagInfo) {
+        res.status(404).json({ message: 'No tag found with this id'});
+        return;
+      }
+      res.json(tagInfo);
+    })
+    .catch(err => {
+      console.log(err);
+      res.status(500).json(err);
+    });
 });
+
 
 router.post('/', (req, res) => {
   // create a new tag
